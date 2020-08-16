@@ -1,4 +1,6 @@
 const path = require("path");
+const CopyPlugin = require("copy-webpack-plugin");
+
 module.exports = {
   mode: "production",
   entry: "./src/index.ts",
@@ -19,7 +21,6 @@ module.exports = {
     library: "mynaconnect",
     libraryTarget: "umd",
     path: path.resolve(__dirname, "dist"),
-    publicPath: path.resolve(__dirname, "public"),
     globalObject: "this",
   },
   devServer: {
@@ -28,4 +29,9 @@ module.exports = {
     port: 9000,
     open: true,
   },
+  plugins: [
+    new CopyPlugin({
+      patterns: [{ from: "public", to: "." }],
+    }),
+  ],
 };
