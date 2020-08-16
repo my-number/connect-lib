@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Example</title>
+    <script src="https://mynaconnect-lib.netlify.app/mynaconnect.js"></script>
+
+    <script>
+      function cert() {
+        mynaconnect.getAuthCert("test - cert").then((e) => {
+          console.log(e);
+        });
+      }
+      function sign() {
+        mynaconnect.signWithAuth("test - sign", "000102").then((e) => {
+          console.log(e);
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <button onclick="cert()">cert</button>
+    <button onclick="sign()">sign</button>
+  </body>
+</html>
