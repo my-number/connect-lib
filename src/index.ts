@@ -86,7 +86,7 @@ export class Popup {
       this.close();
     });
     this.windowTimer = setInterval(() => {
-      this.target && this.target.closed && this.close();
+      this.target && this.target.closed && this.close(true);
     }, 400);
 
     window.addEventListener("beforeunload", (e) => {
@@ -94,11 +94,12 @@ export class Popup {
       this.close();
     });
   }
-  close() {
-    this.emit("exit", {
-      success: false,
-      cancelled: true,
-    });
+  close(emitEvent = false) {
+    emitEvent &&
+      this.emit("exit", {
+        success: false,
+        cancelled: true,
+      });
     this.windowTimer && clearInterval(this.windowTimer);
     this.target?.close();
     this.target = null;
