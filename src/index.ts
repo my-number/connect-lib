@@ -3,9 +3,11 @@ const ORIGIN =
     ? "https://connect.mynumber.dev"
     : "http://localhost:8080";
 
+const width = 500;
+const height = 650;
 interface Message {
   type: string;
-  data: object;
+  data: any;
 }
 
 export class Popup {
@@ -66,9 +68,9 @@ export class Popup {
     this.target = window.open(
       ORIGIN,
       "mynaconnect",
-      `width=500,height=600,top=${
-        window.screenY + (window.outerHeight - 500) / 2
-      },left=${window.screenX + (window.outerWidth - 600) / 2}`
+      `width=${width},height=${height},top=${
+        window.screenY + (window.outerHeight - height) / 2
+      },left=${window.screenX + (window.outerWidth - width) / 2}`
     );
 
     this.on("childReady", () => {
@@ -84,7 +86,7 @@ export class Popup {
       this.close();
     });
     this.windowTimer = setInterval(() => {
-      this.target.closed && this.close();
+      this.target && this.target.closed && this.close();
     }, 400);
 
     window.addEventListener("beforeunload", (e) => {
@@ -93,12 +95,16 @@ export class Popup {
     });
   }
   close() {
+    this.emit("exit", {
+      success: false,
+      cancelled: true,
+    });
     this.windowTimer && clearInterval(this.windowTimer);
     this.target?.close();
     this.target = null;
   }
   async getResult(): Promise<object> {
-    return await this.waitOnce("result");
+    return await Promise.race([this.waitOnce("result"), this.waitOnce("exit")]);
   }
 }
 

@@ -1,8 +1,9 @@
 {
-  "name": "parent",
+  "name": "mynaconnect-lib",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "dist/mynaconnect.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server",
